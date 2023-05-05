@@ -1,0 +1,64 @@
+{% extends 'basic_template.html' %}
+{% load static %}
+{% block CSS %} <link rel="stylesheet" href="{% static 'shop/product.css' %}"> {% endblock %}
+{% block PageName %}{% endblock %}
+
+{% block body %}
+<br>
+<body>
+    {% for i in prod %}
+    <div class="product-details-container">
+        <div class="image-container">
+            <div class="prevButton">
+                <button><i class="material-icons" onclick="goPrev()">arrow_back_ios</i></button>
+            </div>
+            <main class="slider">
+                <img draggable="false" src="/media/{{ i.prod_image_1 }}" alt="" class="slide">
+                <img draggable="false" src="/media/{{ i.prod_image_2 }}" alt="" class="slide">
+                <img draggable="false"  src="/media/{{ i.prod_image_3 }}" alt="" class="slide">
+                <img draggable="false" src="/media/{{ i.prod_image_4 }}" alt="" class="slide">
+            </main>
+            <div class="nextButton">
+                <button><i class="material-icons" onclick="goNext()">arrow_forward_ios</i></button>
+            </div>
+        </div>
+        <div class="details-container">
+            <div class="product-details">
+                <h1 class="product-name">{{i.product_name}}</h1>
+                <input class="prodName" type="hidden" name="productName" id="productName{{i.product_id}}" value="{{ i.product_name }}">
+                <input class="prodId" type="hidden" name="prodcutId" id="pui{{i.product_id}}" value="{{ i.product_id }}">
+                <br>
+                <hr>
+                <div class="prize">
+                    <h2><span>&#8377</span>{{ i.product_price }}</h2>
+                    <p><b style="color: rgb(1, 88, 1);">all taxes included</b></p>
+                </div>
+                <br>
+                <div class="cta-buttons">
+                    <button class="add-to-cart {% if user.is_authenticated %}cart{% else %}loginpage{% endif %}" id="{{i.product_id}}">
+                        Add to cart <i class="material-icons shopping-cart">shopping_cart</i>
+                    </button>
+                    <button class="buy-now">
+                        Buy now <a href="/cart/"><i class="material-icons shopping-cart">local_mall</i></a>
+                    </button>
+                </div>
+                <br>
+                <div class="full-detail-about-product">
+                    <h3>Product details</h3>
+                    <p class="main-features">
+                        {{ i.product_details }}
+                    </p>                    
+                    <br>
+                </div>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+{% endblock %}
+{% block scriptblock %}
+<script src="{% static 'shop/product.js' %}"></script>
+{% endblock %}
+</html>

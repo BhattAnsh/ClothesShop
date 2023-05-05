@@ -1,0 +1,38 @@
+{% extends 'basic_template.html' %}
+{% load static %}
+{% block CSS %}
+<link rel="stylesheet" href="{% static 'shop/cart.css' %}">{% endblock %}
+{% block PageName %}Cart{% endblock %}
+
+{% block body %}
+<div class="cart-container">
+    <h2>Your Cart</h2>
+    <ul class="cart-items">
+    {% for i in prods %}
+      <li id="prodContainer{{i.product.product_id}}">
+        <img src="/media/{{ i.product.product_main_image }}" alt="Product Image">
+        <div class="item-details">
+        <h3>{{i.product.product_name}}</h3>
+        <input class="prodName" type="hidden" name="productName" id="productName{{i.product.product_id}}" value="{{ i.product.product_name }}">
+        <input class="prodId" type="hidden" name="prodcutId" id="pui{{i.product.product_id}}" value="{{ i.product.product_id }}">
+        <p>{{ i.product_details }}</p>
+        <p>&#x20B9 {{i.product.product_price}}</p>
+        <p id="quantity{{i.product.product_id}}">Quantity: {{i.quantity}}</p>
+        </div>
+        <button type="submit" class="remove-item removeCart" id="{{ i.product.product_id }}">Remove</button>
+      </li>
+    {% endfor %}
+    </ul>
+    <div class="cart-total">
+        <div style="display: flex;">
+            <span>&#x20B9</span>
+            <p id="total">{{sum}}</p>
+        </div>
+      <a href="/checkout/">Checkout</a>
+    </div>
+  </div>
+  
+{% endblock %} 
+{% block scriptblock %} <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script src="{% static 'shop/index.js' %}"></script>
+{% endblock %}

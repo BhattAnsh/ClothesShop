@@ -1,0 +1,232 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'shop/basic_template.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="{% static 'shop/favicon/favicon.ico' %}" type="image/x-icon">
+  {% block CSS %}{% endblock %}
+  <title>{% block PageName %} {% endblock %}</title>
+</head>
+  <header class="section-header fixed-top ">
+    <section class="header-main border-bottom">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-sm-4 col-md-4 col-5"> <a href="/" class="brand-wrap" data-abc="true">
+                    <span class="logo">ChickWear</span></a></div>
+                <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
+                    <form action="/search/" class="search-wrap" method="get">
+                        <div class="input-group w-100"> <input type="text" class="form-control search-form" style="width:55%;" placeholder="Search" name="search">
+                            <div class="input-group-append"> <a href="/search/"><button class="btn btn-primary search-button" type="submit"> <i class="fa fa-search"></i> </button></a></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-5 col-xl-4 col-sm-8 col-md-4 col-7 iconss">
+                  <div class="d-flex justify-content-end">
+                      <a href="/cart/"><i class="material-icons main_shopping_cart">shopping_cart
+                      </i></a>
+                      <span style="height: 22px; height: min-content;position: relative;left: -16px;color: white;background-color: red;border-radius: 100%;padding: 0 5px;" id="cart-counter">{{ totalItem }}</span>
+                      {% if user.is_authenticated %}
+                      <button class="btn btn-primary bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#loginInfo" aria-controls="logininfo">
+                        {{user}}
+                      </button>
+                      {% else %}                     
+                      <button type="button" class="btn btn-primary" style="background-color: white; color: black; border: none; " data-toggle="modal" data-target="#exampleModalCenter"><b style="font-size: 15px;">Login</b>
+                      </button>
+                      {% endif %}
+                  </div>
+              </div>
+            </div>
+    </section>
+    <nav class="navbar navbar-expand-md navbar-main border-bottom">
+        <div class="container-fluid">
+            <form class="d-md-none my-2" action="/search/" method="get">
+                <div class="input-group"> <input type="search" name="search" class="form-control" placeholder="Search" required="">
+                    <div class="input-group-append"> <button type="submit" class="btn btn-secondary"> <i class="fa fa-search"></i></button> </div>
+                </div>
+            </form><button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#dropdown6" aria-expanded="false"> <span class="navbar-toggler-icon"></span></button>
+            <div class="navbar-collapse collapse" id="dropdown6">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"> <a class="nav-link" href="" data-abc="true">Refurbished Mobile</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="" data-abc="true">Accessories & Peripheral</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="" data-abc="true">Blog</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="" data-abc="true">Support</a> </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% for message in messages  %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      {{message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+</header>
+{% block body %} {% endblock %}
+
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <center><div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="width: fit-content;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: none; background-color: transparent;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <center><div class="main">  	
+            <input type="checkbox" id="chk" aria-hidden="true">
+
+              <div class="login">
+                <form class="form" method="post" action="/login/">
+                  {% csrf_token %}
+                  <label for="chk" aria-hidden="true">Log in</label>
+                  <input class="input" type="username" name="username" placeholder="User Name" required="">
+                  <input class="input" type="password" name="pswd" placeholder="Password" required="">
+                  <button type="submit">Log in</button>
+                </form>
+              </div>
+        
+              <div class="register">
+                <form class="form" method="post" action="/signup/">
+                  {% csrf_token %}
+                  <label for="chk" aria-hidden="true">Register</label>
+                  <input class="input" type="text" name="txt" placeholder="Username" required="">
+                  <input class="input" type="email" name="email" placeholder="Email" required="">
+                  <input class="input" type="password" name="pswd" placeholder="Password" required="">
+                  <button>Register</button>
+                </form>
+              </div>
+          </div></center>
+        </div>
+      </div>
+    </div></center>
+  </div>
+  <br>
+  <!-- login info -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="loginInfo" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <span>Welcome to ChickWear<span><h2>{{user}}</h2></span></span>
+      <hr>
+      <div>
+        <a href=""><b>Order</b></a>
+        <hr>
+        <a href=""><b>Wishlist</b></a>
+        <hr>
+        <a href=""><b>Contact Us</b></a>
+        <hr>
+        <a href="/logout/"><h3><i class="material-icons">logout</i></h3></a>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div style="min-height: 250px;" class="footer" id="footer-sub">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5> HELP </h5>
+                <ul>
+                    <li><a href="">Payments</a></li>
+                      <li><a href="">Saved Cards</a></li>
+                    <li><a href="">Shipping</a></li>
+                    <li><a href="">Cancellation & Returns</a></li>
+                  <li><a href="">FAQ</a></li>               
+                </ul>
+                </div>
+                 <div class="col-md-4">
+                    <h5> COMPANY NAME </h5>
+                <ul>
+                    <li><a href="">Contact Us</a></li>
+                    <li><a href="">About Us</a></li>
+                    <li><a href="">Careers</a></li>
+                    <li><a href="">Press</a></li>
+                    <li><a href="">Sell on our website</a></li>               
+                </ul>
+            </div>
+             <div class="col-md-4">
+                <h5> MISC </h5>
+                <ul>
+                    <li><a href="">Online Shopping</a></li>
+                    <li><a href="">Affliate Program</a></li>
+                    <li><a href="">Gift Card</a></li>
+                    <li><a href="">Subscription</a></li>
+                    <li><a href="">Sitemap</a></li>               
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js></script>
+  <script>
+    $(document).ready(function() {
+      $('.cart').click(function(e) {
+        e.preventDefault();
+        var button_id = this.id
+        var prodName = $('#productName'+button_id).val();
+        var prodId = $('#pui'+button_id).val();  // get the value of the input field
+        $.ajax({
+          type: "POST",
+          url: "{% url 'cart' %}",
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            productName: prodName,
+            productId : prodId
+          },
+          success: function(data) {
+            $('#cart-counter').text(data.totalItem)
+          }
+        });
+      });
+      $('.removeCart').click(function(e) {
+        e.preventDefault();
+        var button_id = this.id
+        var prodName = $('#productName'+button_id).val();
+        var prodId = $('#pui'+button_id).val();  // get the value of the input field
+        console.log(button_id)
+        $.ajax({
+          type: "POST",
+          url: "{% url 'removeFromCart' %}",
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            productName: prodName,
+            productId : prodId
+          },
+          success: function(data) {
+            if (data.qty != 0){
+              $('#quantity'+button_id).text("Quantity: "+data.qty);
+              $('#cart-counter').text(data.totalItem);
+              $('#total').text(data.total)
+            }
+            else{
+              $('#prodContainer'+button_id).css('display', 'none');
+              $('#cart-counter').text(data.totalItem);
+              $('#total').text(data.total)
+            }
+          }
+        });
+      });
+      $('.loginpage').click(function(e){
+        alert('You have to login first')
+      })
+    });
+  </script>
+  {% block scriptblock %} {% endblock %}
+</body>
+</html>

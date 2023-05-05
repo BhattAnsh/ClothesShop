@@ -1,0 +1,30 @@
+{% extends 'basic_template.html' %}
+{% load static %}
+{% block CSS %}<link rel="stylesheet" href="{% static 'shop/product-list.css' %}">{% endblock %}
+{% block PageName %}Product-list{% endblock %}
+
+{% block body %}
+<body>
+    <div class="products-page-container" style="margin-top: 127px;"> 
+        <div class="products">
+          {% for i in prod %}
+          <div class="card" style="width: 18rem;">
+              <img draggable="false" src="/media/{{ i.product_main_image }}" alt="" class="slide">
+            <div class="card-body">
+              <span style="color:grey">{{i.product_cat}}</span>
+              <span><h5 style="margin: 1px !important;" class="card-title">{{i.product_name}}</h5></span>
+              <input class="prodName" type="hidden" name="productName" id="productName{{i.product_id}}" value="{{ i.product_name }}">
+              <input class="prodId" type="hidden" name="prodcutId" id="pui{{i.product_id}}" value="{{ i.product_id }}">
+              <br>
+              <p style="margin: 0 !important;">Price: &#8377; {{i.product_price}}</p>
+              <br>
+              <button id="{{ i.product_id }}" class="fa fa-shopping-cart btn-primary {% if user.is_authenticated %}cart{% else %}loginpage{% endif %}" type="{% if user.is_authenticated %}submit{% endif %}" style="border: none; outline: none; color: white; background-color: #9C60DE; padding: 10px 20px;"><i></i>Add to Cart</button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>    
+      </div>
+</body>
+{% endblock %}
+
+{% block scriptblock %}<script src="{% static 'shop/product-list.js' %}"></script>{% endblock %}

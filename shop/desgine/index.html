@@ -1,0 +1,57 @@
+{% extends 'basic_template.html' %}
+{% load static %}
+{% block CSS %}<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+<link rel="stylesheet" href="{% static 'shop/style.css' %}">{% endblock %}
+{% block PageName %}Home{% endblock %}
+
+{% block body %}
+  <!-- hero banner slide -->
+  <div class="hero-slider" data-carousel>
+    {% for j in sale %}
+    <div class="carousel-cell" style="background-image:url('/media/{{ j.sale_image }}')">
+      <div class="inner">
+        <h2 class="title">{{j.sale_name}}</h2>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <br>
+  {% for j in cats_list %}
+  <div class="latest-product-list-container product-list-container">
+    <center><h1 style="padding: 20px; background-color: #EEE; margin: 0;">{{j}}</h1></center>
+    <div class="product-list" data-flickity='{ "groupCells": true, "pageDots": false}'>
+      {% for i in Prods %}
+        {% if i.product_cat == j %}
+          <div class="product-card">
+            <div class="badge">Latest</div>
+            <div class="product-tumb">
+              <img src="/media/{{ i.product_main_image }}" alt="">
+            </div>
+            <div class="product-details">
+                <span class="product-catagory">{{ i.product_cat }}</span>
+                <h4><a href="product/{{ i.product_id }}">{{ i.product_name }}</a></h4>
+                <input class="prodName" type="hidden" name="productName" id="productName{{i.product_id}}" value="{{ i.product_name }}">
+                <input class="prodId" type="hidden" name="prodcutId" id="pui{{i.product_id}}" value="{{ i.product_id }}">
+                <div class="product-bottom-details">
+                  <div class="product-price"><small class="real_price"></small>&#x20B9 {{ i.product_price }}</div>
+                  <div class="product-links"> 
+                    <button type="{% if user.is_authenticated %}submit{% endif %}" style="border: none; outline: none; color: #e1e1e1; background-color: transparent;"><i id="{{ i.product_id }}" class="fa fa-shopping-cart {% if user.is_authenticated %}cart{% else %}loginpage{% endif %}"></i></button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        {% endif %}      
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  {% endblock %} 
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+  {% block scriptblock %} <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <script src="{% static 'shop/index.js' %}"></script>{% endblock %}

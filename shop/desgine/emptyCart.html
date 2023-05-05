@@ -1,0 +1,18 @@
+{% extends 'basic_template.html' %}
+{% load mathfilters %}
+{% load static %}
+{% block CSS %}
+<link rel="stylesheet" href="{% static 'shop/emptyCart.css' %}">{% endblock %}
+{% block PageName %}Cart{% endblock %}
+
+{% block body %}
+<div class="main_container" style="margin-top: 150px; text-align: center;">
+    <div class="SvgContainer">
+        <img class="emptyCartSvg"src="{% static 'shop/svgs/emptyCart.svg' %}" alt="confirmed">
+        <h2>Oops! Looks like you cart is empty</h2>
+    </div>
+    <div class="button">
+        <a href="/"><button class="continueShopping">Continue Shopping</button></a>
+    </div>
+</div>
+{% endblock %}

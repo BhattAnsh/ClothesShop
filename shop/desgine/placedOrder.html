@@ -1,0 +1,18 @@
+{% extends 'basic_template.html' %}
+{% load mathfilters %}
+{% load static %}
+{% block CSS %}
+<link rel="stylesheet" href="{% static 'shop/placedOrder.css' %}">{% endblock %}
+{% block PageName %}Order Summary{% endblock %}
+
+{% block body %}
+<div class="main_container" style="margin-top: 150px; text-align: center;">
+    <div class="tickSection">
+        <img style="width:115px" src="{% static 'shop/images/order.png' %}" alt="confirmed">
+        <h1>Order Placed</h1>
+    </div>
+    <div class="button">
+        <button class="trackOrder">Track Order</button>
+    </div>
+</div>
+{% endblock %}
